@@ -8,6 +8,11 @@ app.use(cors({origin: "*", method: "GET"}));
 app.get("/fetch-pdf/:id", async (req, res) => {
     const fileUrl = `https://drive.google.com/uc?export=download&id=${req.params.id}`;
     const response = await axios.get(fileUrl, {responseType: "arraybuffer"});
+
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "GET");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+    res.setHeader("Content-Disposition", "inline")
     res.setHeader("Content-Type", "application/pdf");
     res.send(response.data);
 });
