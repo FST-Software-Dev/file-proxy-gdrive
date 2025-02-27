@@ -3,7 +3,14 @@ const cors = require("cors");
 const axios = require("axios");
 
 const app = express();
-app.use(cors({origin: "*", method: "GET"}));
+app.use(cors({origin: "*", methods: ["GET"]}));
+
+app.options("*", (req, res) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+    res.sendStatus(200);
+});
 
 app.get("/fetch-pdf/:id", async (req, res) => {
     const fileUrl = `https://drive.google.com/uc?export=download&id=${req.params.id}`;
